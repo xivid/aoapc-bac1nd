@@ -1,0 +1,95 @@
+#1 µİ¹é
+#2 µü´ú
+n = 200
+#1 time used: 0.0000s
+#2 time used: 0.0000s
+#1 time used: 0.0000s
+#2 time used: 0.0000s
+n = 400
+#1 time used: 0.0310s
+#2 time used: 0.0150s
+#1 time used: 0.0150s
+#2 time used: 0.0150s
+#1 time used: 0.0150s
+#2 time used: 0.0150s
+#1 time used: 0.0310s
+#2 time used: 0.0150s
+#1 time used: 0.0150s
+#1 time used: 0.0150s
+#1 time used: 0.0150s
+#2 time used: 0.0150s
+#2 time used: 0.0150s
+#2 time used: 0.0150s
+n = 800
+#1 time used: 0.0620s
+#2 time used: 0.0620s
+#1 time used: 0.0620s
+#2 time used: 0.0620s
+#1 time used: 0.0620s
+#2 time used: 0.0620s
+#1 time used: 0.0620s
+#2 time used: 0.0620s
+#1 time used: 0.0620s
+#1 time used: 0.0780s
+#1 time used: 0.0620s
+#2 time used: 0.0620s
+#2 time used: 0.0620s
+#2 time used: 0.0620s
+n = 1600
+#1 time used: 0.2960s
+#2 time used: 0.2650s
+#1 time used: 0.2810s
+#2 time used: 0.2650s
+#1 time used: 0.2810s
+#2 time used: 0.2810s
+#1 time used: 0.2960s
+#2 time used: 0.2650s
+#2 time used: 0.2650s
+#2 time used: 0.2650s
+#2 time used: 0.2810s
+#1 time used: 0.2810s
+#1 time used: 0.2810s
+#1 time used: 0.2810s
+#1 time used: 0.2810s
+#2 time used: 0.2650s
+n = 3200
+#1 time used: 1.2500s
+#1 time used: 1.2340s
+#1 time used: 1.2500s
+#1 time used: 1.2500s
+#1 time used: 1.2500s
+#1 time used: 1.2500s
+#2 time used: 1.1870s
+#2 time used: 1.1710s
+#2 time used: 1.1710s
+#2 time used: 1.1870s
+#2 time used: 1.1560s
+#2 time used: 1.1710s
+#1 time used: 1.2500s
+#1 time used: 1.2340s
+#1 time used: 1.2500s
+#2 time used: 1.1710s
+#2 time used: 1.1710s
+#2 time used: 1.1710s
+n = 6400
+#1 time used: 5.3750s
+#1 time used: 5.3750s
+#1 time used: 5.3590s
+#1 time used: 5.3750s
+#1 time used: 5.3590s
+#1 time used: 5.3750s
+#1 time used: 5.3750s
+#1 time used: 5.3590s
+#2 time used: 5.1090s
+#2 time used: 5.0940s
+#2 time used: 5.0780s
+#2 time used: 5.0780s
+#2 time used: 5.0780s
+#2 time used: 5.0780s
+#2 time used: 5.0940s
+#2 time used: 5.0940s
+n = 12800
+#1 time used: 23.1730s
+#2 time used: 21.9690s
+#1 time used: 23.1730s
+#2 time used: 21.9690s

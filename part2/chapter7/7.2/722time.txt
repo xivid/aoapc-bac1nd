@@ -1,0 +1,18 @@
+way1:  生成可重集的排列
+way2： rewrite
+n=10, way1 time used: 2.6720s
+n=10, way1 time used: 2.7180s
+n=10, way1 time used: 2.6870s
+n=10, way1 time used: 2.6870s
+n=10, way2 time used: 1.4370s
+n=10, way2 time used: 1.4370s
+n=10, way2 time used: 1.4530s
+n=10, way2 time used: 1.4530s
+n=11, way2 time used: 18.2660s
+n=11, way2 time used: 18.2350s
+n=11, way2 time used: 18.1880s
+n=11, way1 time used: 35.6110s
+n=11, way1 time used: 36.2430s
+n=11, way1 time used: 36.0120s
+结论：（1）阶乘级的时间复杂度，n由10变为11，消耗时间扩大11!/10!=11倍，实测13倍，近似。
+（2）优化后快了近一倍。

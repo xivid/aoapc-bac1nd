@@ -1,0 +1,269 @@
+
+[初步分析]
+埃及分数问题属于数论的一个分支“丢番图方程”，现在的研究已经比较深入了，
+不过仍有
+很多问题尚未解决。这个题目虽然看起来很简单，但是我们几乎不可能想到一个纯
+理论性的
+方法解决，搜索势在必行。
+最基本的搜索方式有深度优先和广度优先。这道题目用深度优先很难出解，因为我
+们无法预料
+找到的地一个解的深度，因此我们考虑有广度优先方法。
+
+暂且不考虑广度优先是否最好，我们先来考虑算法的具体实现。
+
+1.节点类型:
+是一个K元组（a1,a2,...ak）, 代表当前解中的分母a1,a2..ak
+我们暂时令k=6,也就是最多保存6个分母（如果觉得不够自己增加k的值）
+
+2.节点扩展：
+按照a1<a2<a3..<ak的顺序扩展。(这个是通常做法，大家都知道吧)
+扩展第k层节点的时候，最笨的方法，就是从a[k-1]+1开始枚举a[k],一直到预先确
+定的最大值。
+但是这个最大值怎么确定呢？
+直观的讲，a[k]总不能太大，因为如果a[k]太大，1/a[k]就很小，1/a[k+1] .. 
+1/a[k+2].. 就更小，那么
+可能加了好多项，还不够a/b..
+!@#$!@#$,哎，都怪1/a[k]太小了，没有起到什么作用。
+例如：
+例如已经扩展到
+19/45=1/5+????
+那么如果第二项是1/100, 那么由于19/45-1/5=2/9=0.22222...
+那么接下来至少要0.2222/(1/100)=22项加起来才足够2/9, 所以继续扩展下去至少
+还要扩展22项（天哪！）
+加起来才差不多足够a/b。这么多项，不大可能是最优解吧！
+
+[确定搜索算法]
+好了，刚才的分析其实是在引导我们进行剪枝，但是广度优先搜索停止于第一个解
+的发现，
+找到第一个解之前谁也不感贸然把22项那个“大解”扔掉 - 万一它真的是最优解
+呢？
+
+我们希望在预测深度方面剪枝，但是广度优先搜索并不能让我们大胆的剪，这样的
+情形，我们通常有三种
+解决方法：
+1.分支定界
+如果还能够给节点找到上界，相当于有了较优解，那么我们可以放心的对很多“大
+得荒唐”的节点放心的剪枝。
+但是本题的上界不大容易给出（至少我现在的知识只知道一些特殊情况的上界），
+所以在本题中，这个方法并
+不实用
+
+2.启发式搜索
+既然22不大可能是最优解，我们不扔它，不过也不急着扩展，总可以了吧。理论比
+较完善的启发式搜索是A*，
+不过本题用A*实在没多大必要。
+
+3.迭代加深搜索(Iterative Deepening)
+迭代加深搜索对于多数初学者来说是个陌生的名词，不过其实原理非常简单：
+也就是说：
+for depth:=1 to maxdepth do
+  if search then
+  begin
+    writeln("Best=",depth);
+    break;
+  end;
+明白了吗？
+你一定明白了，不过可能会想：
+这样不是重复搜索了好多东西吗？
+
+是的，是重复搜索，但是它的好处在于：
+
+1.空间开销小
+因为每个深度下实际上是一个深度优先搜索，不过深度有限制，而DFS的空间消耗
+小是众所周知的。
+本题不是很明显，不过在节点复杂的题目里，用BFS和A*空间会远远不足的。
+
+2.编程方便，利于调试
+利用递归，我们甚至不需要自己建栈，而BFS用到的队列和A*用到的堆，二分检索
+树等是比较麻烦的。
+
+3.时间效率不低
+虽然重复搜索，但是大家不难理解，前一次搜索跟后一次相不是微不足到的。这一
+点我在我的冬令营论文
+中有详细叙述
+
+4.利于深度剪枝
+在这道题目中，这是迭代加深搜索最大的优势。
+比如当前深度是3,那么那个22肯定就不要了。而如果最优解是4，肯定在depth=4的
+时候就能得到最优解
+（从而立刻结束搜索），也就是说，22个那个东西每次都没用，这和我们主观的剪
+枝动机是一致的。
+
+最后，对于不熟悉搜索的程序编制的朋友，这里我写出PASCAL和C各一个程序，我
+尽量写得easy to read,
+希望大家有所帮助。
+
+[关于代码的改进]
+大家注意我的枚举部分的实现。
+我先把枚举的边界s和t求出来再枚举，而不是每次判断时候需要剪枝，这样的代码
+要快得多。
+s:=b div a;  {再小递归以后就是负数了:-P}
+if s<d[k-1]+1 then s:=d[k-1]+1; {搜索顺序}
+t:=(depth-k+1)*b div a; {根据当前深度定下的最大值}
+if t>maxlongint div b then t:=maxlongint div b;
+if found and (t>=answer[depth]) then t:=answer[depth]-1;
+再是：
+for i:=s to t do
+...
+
+另外，最容易出错的一点是，递归的时候，求得的新分数必须约分，否则可能出现
+算术运算overflow!!
+求最大公约数用迭代的方法比递归快。这样，用FP/DJGPP编译出来的程序对于最后
+一个数据也只需要
+0.60秒，比以前的快了很多：）
+
+[程序清单]
+Pascal语言 (建议用free pascal编译)
+{$A+,B-,D+,E+,F-,G-,I+,L+,N+,O-,P-,Q-,R-,S-,T-,V+,X+}
+{$M 16384,0,655360}
+{
+   Try These Test Cases:
+   27 441,  4 109,  59 211,  101 103,  907 911,  523 547
+}
+
+const
+  maxdepth=10;
+var
+  time,a,b,i,depth:longint;
+  found:boolean;
+  answer,d:array[0..maxdepth] of longint;
+  t:longint;
+
+function gcd(a,b:longint):longint;
+begin
+  t:=a mod b;
+  while t<>0 do
+  begin
+    a:=b;
+    b:=t;
+    t:=a mod b;
+  end;
+  gcd:=b;
+end;
+
+procedure search(a,b,k:longint); {determine the kth number d[k]}
+var
+  i,m,s,t:longint;
+begin
+  if k=depth+1 then exit
+  else if (b mod a=0) and (b div a>d[k-1]) then
+  begin
+    d[k]:=b div a;
+    if not found or (d[k]<answer[k]) then
+      answer:=d; {better}
+    found:=true;
+    exit;
+  end;
+
+  s:=b div a;
+  if s<d[k-1]+1 then s:=d[k-1]+1;
+  t:=(depth-k+1)*b div a;
+  if t>maxlongint div b then t:=maxlongint div b; {prevent 
+overflowing}
+  if found and (t>=answer[depth]) then t:=answer[depth]-1;
+
+  for i:=s to t do
+  begin
+    d[k]:=i;
+    m:=gcd(i*a-b,b*i);
+    search((i*a-b) div m,(b*i) div m,k+1);
+  end;
+end;
+
+begin
+  found:=false;
+  d[0]:=1;
+  readln(a,b);
+  time:=meml[$40:$6c];
+  for depth:=1 to maxdepth do
+  begin
+    search(a,b,1);
+    if found then
+    begin
+      for i:=1 to depth do
+        write(answer[i],' ');
+      writeln;
+      break;
+    end;
+  end;
+  time:=meml[$40:$6c]-time;
+  writeln('TimeUsed=',time/18.2:0:2);
+end.
+
+
+C语言(建议用djgpp编译)
+/*
+   Try These Test Cases:
+   27 441,  4 109,  59 211,  101 103,  907 911,  523 547
+*/
+
+#include<stdio.h>
+#include<math.h>
+#include<time.h>
+
+#define MAXDEPTH 10
+#define MAX 2147483647L
+
+unsigned long depth;
+int found;
+unsigned long answer[MAXDEPTH], d[MAXDEPTH];
+unsigned long t;
+unsigned long node=0;
+
+unsigned long gcd(unsigned long a, unsigned long b)
+{
+  t=a%b;
+  while(t){
+    a=b;
+    b=t;
+    t=a%b;
+  }
+  return b;
+}
+
+/* determine the kth number d[k] */
+void search(unsigned long a, unsigned long b, unsigned long k)
+{
+  unsigned long i,m,s,t;
+  if (k==depth+1) return;
+  else if (b%a==0 && b/a>d[k-1]){
+    d[k]=b/a;
+    if (!found || d[k]<answer[k])
+      memcpy(answer,d,sizeof(d));
+    found = 1;
+    return;
+  }
+  node++;
+  s=b/a;
+  if (s<=d[k-1]) s=d[k-1]+1;
+  t=(depth-k+1)*b/a;
+  if (t>MAX/b) t=MAX/b;
+  if (found && t>=answer[depth]) t=answer[depth]-1;
+
+  for (i=s; i<=t; i++)
+  {
+     d[k]=i;
+     m=gcd(i*a-b,b*i);
+     search((i*a-b)/m,b*i/m,k+1);
+  }
+}
+
+void main()
+{
+  unsigned long a,b;
+  int i;
+
+  found = 0;
+  d[0] = 1;
+  scanf("%ld%ld",&a,&b);
+
+  for (depth=1; depth<=MAXDEPTH; depth++){
+    search(a,b,1);
+    if (found){
+      for(i=1;i<=depth;i++) printf("%ld ",answer[i]);
+      printf("\n");
+      break;
+    }
+  }
+  printf("NodeCount=%ld",node);
+}

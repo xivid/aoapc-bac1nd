@@ -1,0 +1,13 @@
+n=10,way2 time used: 0.45
+n=10,way1 time used: 1.96
+n=10,way1 time used: 1.95
+n=10,way2 time used: 0.46
+n=10,way1 time used: 1.95
+n=10,way2 time used: 0.46
+n=10,way1 time used: 1.94
+n=10,way2 time used: 0.45
+n=10,way2 time used: 0.46
+n=10,way1 time used: 1.95
+n=11,way1 time used: 24.34
+n=11,way2 time used: 5.26
+用上标志数组后效率提高近5倍！！

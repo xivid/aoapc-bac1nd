@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1349488816 source:/host/NOI/rumen/part2/chapter5/5.5/5.5.3/Sorting_Searching/152/main.cpp
+	<iostream>
+	<cmath>
+	<iomanip>
+
